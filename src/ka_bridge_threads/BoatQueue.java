@@ -12,13 +12,16 @@ public class Boatqueue {
     private static ArrayList<Boat> boatsWaiting;
     private static Boatqueue instance = null;
     private static boolean boatsArriving = true;
-    
-    private Boatqueue(){}
+    private static Object lock;
+
+    private Boatqueue() {
+    }
 
     public static Boatqueue getInstance() {
         if (instance == null) {
             instance = new Boatqueue();
             boatsWaiting = new ArrayList<>();
+            lock = new Object();
         }
         return instance;
     }
@@ -28,11 +31,21 @@ public class Boatqueue {
     }
 
     public void addBoat(Boat b) {
-        boatsWaiting.add(b);
+        synchronized (lock) {
+            boatsWaiting.add(b);
+            lock.notify();
+        }
+
     }
 
-    public void removeBoat(Boat b) {
-        boatsWaiting.remove(b);
+    public void removeBoat(int i) throws InterruptedException {
+        synchronized (lock) {
+            while (boatsWaiting.isEmpty()) {
+                lock.wait();
+            }
+            boatsWaiting.remove(i);
+        }
+
     }
 
     public boolean isBoatsArriving() {
@@ -42,5 +55,5 @@ public class Boatqueue {
     public void setBoatsArriving(boolean boatsArriving) {
         Boatqueue.boatsArriving = boatsArriving;
     }
- 
+
 }

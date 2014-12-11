@@ -11,78 +11,95 @@ import java.util.logging.Logger;
 
 public class Bridge implements Runnable {
 
-    private Shared s;
     private ArrayList<Boat> boatsInQueue;
     private final long openTime = 2000;
-    private final long passTime = 100;
+    //private final long passTime = 100;
     private static boolean bridgeIsOpen = false;
     private static Boatqueue boatQueue;
 
-    public Bridge(Shared s) {
-        this.s = s;
+    public Bridge() {
         boatQueue = Boatqueue.getInstance();
     }
 
     @Override
     public void run() {
- System.out.println("Bridge "+s.isBoatWaiting());
-        while (s.isBoatWaiting()) {
-                 
-            boatsInQueue = boatQueue.getBoatsWaiting();
 
-            if (boatsInQueue.isEmpty()) {
-                setBridgeIsOpen(false);
-            } else {
-                setBridgeIsOpen(true);
+        while (boatQueue.isBoatsArriving()) {
 
-                for (int i = 0; i < boatsInQueue.size(); i++) {
+            System.out.print("");
 
-                    if (boatsInQueue.get(i).getDirection().equalsIgnoreCase("right")) {
-                        boatQueue.removeBoat(boatsInQueue.get(i));
-                        System.out.println(boatsInQueue.get(i).getName() + " has Passed the bridge from the right");
+            if (!boatQueue.getBoatsWaiting().isEmpty()) {
 
-                        boatIsPassing();
+                int numberOfBoatsFromRight = 0;
+                int numberOfBoatsFromLeft = 0;
+                int passTime = 0;
+
+                for (int i = 0; i < boatQueue.getBoatsWaiting().size(); i++) {
+
+                    if (boatQueue.getBoatsWaiting().get(i).getDirection().equalsIgnoreCase("right")) {
+                        System.out.println(boatQueue.getBoatsWaiting().get(i).getName() + " has Passed the bridge from the right");
+                        try {
+                            boatQueue.removeBoat(i);
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(Bridge.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+
+                        passTime += 100;
+                        numberOfBoatsFromRight++;
                     }
                 }
 
-                for (int i = 0; i < boatsInQueue.size(); i++) {
+                try {
+                    Thread.sleep(passTime);
+                    System.out.println("Total number of boats passed from right: " + numberOfBoatsFromRight);
+                    System.out.println("All boats from right has pass. Time spent: " + passTime);
 
-                    if (boatsInQueue.get(i).getDirection().equalsIgnoreCase("left")) {
-                        System.out.println(boatsInQueue.get(i).getName() + " has Passed the bridge from the left");
-                        boatQueue.removeBoat(boatsInQueue.get(i));
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(Bridge.class.getName()).log(Level.SEVERE, null, ex);
+                }
 
-                        boatIsPassing();
+                passTime = 0;
+
+                for (int i = 0; i < boatQueue.getBoatsWaiting().size(); i++) {
+
+                    if (boatQueue.getBoatsWaiting().get(i).getDirection().equalsIgnoreCase("left")) {
+                        System.out.println(boatQueue.getBoatsWaiting().get(i).getName() + " has Passed the bridge from the left");
+                        try {
+                            boatQueue.removeBoat(i);
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(Bridge.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+
+                        passTime += 100;
+                        numberOfBoatsFromLeft++;
                     }
                 }
-                 System.out.println("Bridge end"+s.isBoatWaiting());
-                s.setBoatWaiting();
+
+                try {
+                    Thread.sleep(passTime);
+                    System.out.println("Total number of boats passed from right: " + numberOfBoatsFromLeft);
+                    System.out.println("All boats from left has pass. Time spent: " + passTime);
+
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(Bridge.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
                 BridgeIsWaitingToOpen();
             }
 
         }
+
     }
 
     public boolean isBridgeIsOpen() {
         return bridgeIsOpen;
     }
 
-    public void setBridgeIsOpen(boolean bridgeIsOpen) {
-        Bridge.bridgeIsOpen = bridgeIsOpen;
-    }
-
-    public void boatIsPassing() {
-        try {
-            System.out.println("Boat is passing");
-            Thread.sleep(passTime);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(Creator.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
     public void BridgeIsWaitingToOpen() {
         try {
-            System.out.println("Bridge is now closed - opening in 2 seconds");
+            System.out.println("Bridge is now closed");
             Thread.sleep(openTime);
+            System.out.println("Bridge is now open");
         } catch (InterruptedException ex) {
             Logger.getLogger(Creator.class.getName()).log(Level.SEVERE, null, ex);
         }

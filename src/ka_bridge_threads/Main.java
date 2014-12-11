@@ -5,24 +5,15 @@
  */
 package ka_bridge_threads;
 
-/**
- *
- * @author joachimdittman
- */
 public class Main {
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
-
-        Shared s = new Shared();
         
-        Thread creator = new Thread(new Creator(s));
-        Thread bridge = new Thread(new Bridge(s));
+        Thread creator = new Thread(new Creator());
+        Thread bridge = new Thread(new Bridge());
+        
         creator.start();
         bridge.start();
-
     }
 
 }

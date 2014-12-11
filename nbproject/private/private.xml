@@ -5,8 +5,8 @@
         <group>
             <file>file:/C:/Users/Mathias/Documents/NetBeansProjects/KA_bridge_Threads/src/ka_bridge_threads/Creator.java</file>
             <file>file:/C:/Users/Mathias/Documents/NetBeansProjects/KA_bridge_Threads/src/ka_bridge_threads/Bridge.java</file>
-            <file>file:/C:/Users/Mathias/Documents/NetBeansProjects/KA_bridge_Threads/src/ka_bridge_threads/BoatQueue.java</file>
-            <file>file:/C:/Users/Mathias/Documents/NetBeansProjects/KA_bridge_Threads/src/ka_bridge_threads/Boat.java</file>
+            <file>file:/C:/Users/Mathias/Documents/NetBeansProjects/KA_bridge_Threads/src/ka_bridge_threads/Shared.java</file>
+            <file>file:/C:/Users/Mathias/Documents/NetBeansProjects/KA_bridge_Threads/src/ka_bridge_threads/Main.java</file>
         </group>
     </open-files>
 </project-private>
