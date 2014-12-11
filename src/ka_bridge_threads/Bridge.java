@@ -6,15 +6,15 @@
 package ka_bridge_threads;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Bridge implements Runnable {
 
     private ArrayList<Boat> boatsInQueue;
-    private long timeToPass;
-    private long openTime = 2000;
-    private long passTime = 100;
+    private final long openTime = 2000;
+    private final long passTime = 100;
     private static boolean bridgeIsOpen = false;
     private static Boatqueue boatQueue;
 
@@ -26,39 +26,64 @@ public class Bridge implements Runnable {
     public void run() {
 
         while (boatQueue.isBoatsArriving()) {
-//             timeToPass = System.currentTimeMillis() + openTime;
-//            if (System.currentTimeMillis() <= timeToPass) {
-//                setBridgeIsOpen(true);
-//                System.out.println("Bidge is open");
-//            } else {
-//                setBridgeIsOpen(false);
-//                System.out.println("Bidge is closed");
-//            }
-            boatsInQueue = boatQueue.getBoatsWaiting();
-            
-            for (int i = 0; i < boatsInQueue.size(); i++) {
 
-                if (boatsInQueue.get(i).getDirection().equalsIgnoreCase("Left")) {
-                    boatQueue.removeBoat(boatsInQueue.get(i));
-                    System.out.println("" + boatsInQueue.get(i).getName() + " has Passed the bridge");
-                } else if (boatsInQueue.get(i).getDirection().equalsIgnoreCase("Right")) {
-                    boatQueue.removeBoat(boatsInQueue.get(i));
-                    System.out.println("" + boatsInQueue.get(i).getName() + " has Passed the bridge");
-                } else {
-                    System.out.println("Something Happend");
+            boatsInQueue = boatQueue.getBoatsWaiting();
+
+            if (boatsInQueue.isEmpty()) {
+                System.out.println("test");
+                setBridgeIsOpen(false);
+            } else {
+                setBridgeIsOpen(true);
+
+                for (int i = 0; i < boatsInQueue.size(); i++) {
+
+                    if (boatsInQueue.get(i).getDirection().equalsIgnoreCase("right")) {
+                        boatQueue.removeBoat(boatsInQueue.get(i));
+                        System.out.println(boatsInQueue.get(i).getName() + " has Passed the bridge from the right");
+
+                        boatIsPassing();
+                    }
                 }
 
+                for (int i = 0; i < boatsInQueue.size(); i++) {
+
+                    if (boatsInQueue.get(i).getDirection().equalsIgnoreCase("left")) {
+                        System.out.println(boatsInQueue.get(i).getName() + " has Passed the bridge from the left");
+                        boatQueue.removeBoat(boatsInQueue.get(i));
+
+                        boatIsPassing();
+                    }
+                }
+                BridgeIsWaitingToOpen();
             }
 
         }
     }
 
-    public static boolean isBridgeIsOpen() {
+    public boolean isBridgeIsOpen() {
         return bridgeIsOpen;
     }
 
-    public static void setBridgeIsOpen(boolean bridgeIsOpen) {
+    public void setBridgeIsOpen(boolean bridgeIsOpen) {
         Bridge.bridgeIsOpen = bridgeIsOpen;
+    }
+
+    public void boatIsPassing() {
+        try {
+            System.out.println("Boat is passing");
+            Thread.sleep(passTime);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Creator.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void BridgeIsWaitingToOpen() {
+        try {
+            System.out.println("Bridge is now closed - opening in 2 seconds");
+            Thread.sleep(openTime);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Creator.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }

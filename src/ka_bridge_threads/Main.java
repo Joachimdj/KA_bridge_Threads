@@ -15,14 +15,12 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        
+
         Thread creator = new Thread(new Creator());
-        creator.start();
-        
         Thread bridge = new Thread(new Bridge());
+        creator.start();
         bridge.start();
-                
-        
+
     }
-    
+
 }

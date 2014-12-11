@@ -27,7 +27,7 @@ public class Creator implements Runnable {
     public void run() {
 
         while (boatQueue.isBoatsArriving()) {
-
+            
             int spawnTime = boatArrivalTime.nextInt(boatArrivalSeed);
 
             try {
@@ -37,13 +37,11 @@ public class Creator implements Runnable {
             }
             
             int heading = boatDirection.nextInt(2);
-            String direction = (heading == 0) ? "Left" : "Right";
+            String direction = (heading == 0) ? "left" : "right";
 
             Boat boat = new Boat("Boat " + boatNumber, direction);
+            System.out.println(boat.getName() + " is arriving on the " + boat.getDirection());
             boatQueue.addBoat(boat);
-//
-//            System.out.println("" + boat.getName() + " has been added!");
-//            System.out.println("" + boat.getName() + " direction " + boat.getDirection());
 
             boatNumber++;
         }
