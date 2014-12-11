@@ -9,9 +9,9 @@ package ka_bridge_threads;
 public class Boat {
     
     private String name;
-    private boolean direction;
+    private String direction;
 
-    public Boat(String name, boolean direction) {
+    public Boat(String name, String direction) {
         this.name = name;
         this.direction = direction;   
     }
@@ -20,7 +20,7 @@ public class Boat {
         return name;
     }
 
-    public boolean isDirection() {
+    public String getDirection() {
         return direction;
     }
     

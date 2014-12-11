@@ -6,14 +6,51 @@
 package ka_bridge_threads;
 
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+public class Bridge implements Runnable {
 
-
-public class Bridge implements Runnable{
-    
-    public static boolean bridgeIsOpen = true;
+    private ArrayList<Boat> boatsInQueue;
+    private long timeToPass;
+    private long openTime = 2000;
+    private long passTime = 100;
+    private static boolean bridgeIsOpen = false;
+    private static Boatqueue boatQueue;
 
     public Bridge() {
+        boatQueue = Boatqueue.getInstance();
+    }
+
+    @Override
+    public void run() {
+
+        while (boatQueue.isBoatsArriving()) {
+//             timeToPass = System.currentTimeMillis() + openTime;
+//            if (System.currentTimeMillis() <= timeToPass) {
+//                setBridgeIsOpen(true);
+//                System.out.println("Bidge is open");
+//            } else {
+//                setBridgeIsOpen(false);
+//                System.out.println("Bidge is closed");
+//            }
+            boatsInQueue = boatQueue.getBoatsWaiting();
+            
+            for (int i = 0; i < boatsInQueue.size(); i++) {
+
+                if (boatsInQueue.get(i).getDirection().equalsIgnoreCase("Left")) {
+                    boatQueue.removeBoat(boatsInQueue.get(i));
+                    System.out.println("" + boatsInQueue.get(i).getName() + " has Passed the bridge");
+                } else if (boatsInQueue.get(i).getDirection().equalsIgnoreCase("Right")) {
+                    boatQueue.removeBoat(boatsInQueue.get(i));
+                    System.out.println("" + boatsInQueue.get(i).getName() + " has Passed the bridge");
+                } else {
+                    System.out.println("Something Happend");
+                }
+
+            }
+
+        }
     }
 
     public static boolean isBridgeIsOpen() {
@@ -24,11 +61,4 @@ public class Bridge implements Runnable{
         Bridge.bridgeIsOpen = bridgeIsOpen;
     }
 
-    @Override
-    public void run() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
-    
-    
 }

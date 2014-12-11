@@ -7,42 +7,40 @@ package ka_bridge_threads;
 
 import java.util.ArrayList;
 
-public class BoatQueue {
+public class Boatqueue {
 
     private static ArrayList<Boat> boatsWaiting;
-    private static BoatQueue instance = null;
+    private static Boatqueue instance = null;
     private static boolean boatsArriving = true;
+    
+    private Boatqueue(){}
 
-    private BoatQueue() {
-    }
-
-    public static BoatQueue getInstance() {
+    public static Boatqueue getInstance() {
         if (instance == null) {
-            instance = new BoatQueue();
+            instance = new Boatqueue();
             boatsWaiting = new ArrayList<>();
         }
-
         return instance;
     }
 
-    public static ArrayList<Boat> getBoatsWaiting() {
+    public ArrayList<Boat> getBoatsWaiting() {
         return boatsWaiting;
     }
 
-    public static void addBoat(Boat b) {
+    public void addBoat(Boat b) {
         boatsWaiting.add(b);
     }
 
-    public static void removeBoat(Boat b) {
+    public void removeBoat(Boat b) {
         boatsWaiting.remove(b);
     }
 
-    public static boolean isBoatsArriving() {
+    public boolean isBoatsArriving() {
         return boatsArriving;
     }
 
-    public static void setBoatsArriving(boolean boatsArriving) {
-        BoatQueue.boatsArriving = boatsArriving;
+    public void setBoatsArriving(boolean boatsArriving) {
+        Boatqueue.boatsArriving = boatsArriving;
     }
  
 }

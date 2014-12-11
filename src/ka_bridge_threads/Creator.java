@@ -11,31 +11,41 @@ import java.util.logging.Logger;
 
 public class Creator implements Runnable {
 
-    private long openTime = 2000;
-    private long passTime = 100;
     private int boatArrivalSeed = 5000;
+    private int boatNumber = 1;
     private Random boatArrivalTime;
-    private BoatQueue boatQueue;
+    private Random boatDirection;
+    private Boatqueue boatQueue;
 
     public Creator() {
         boatArrivalTime = new Random();
-        boatQueue = BoatQueue.getInstance();
-        boatQueue
+        boatDirection = new Random();
+        boatQueue = Boatqueue.getInstance();
     }
 
     @Override
     public void run() {
 
+        while (boatQueue.isBoatsArriving()) {
 
-        
-        while(){
-                    int spawnTime = boatArrivalTime.nextInt(boatArrivalSeed);
+            int spawnTime = boatArrivalTime.nextInt(boatArrivalSeed);
 
-        try {
-            Thread.sleep(spawnTime);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(Creator.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            try {
+                Thread.sleep(spawnTime);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Creator.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            int heading = boatDirection.nextInt(2);
+            String direction = (heading == 0) ? "Left" : "Right";
+
+            Boat boat = new Boat("Boat " + boatNumber, direction);
+            boatQueue.addBoat(boat);
+//
+//            System.out.println("" + boat.getName() + " has been added!");
+//            System.out.println("" + boat.getName() + " direction " + boat.getDirection());
+
+            boatNumber++;
         }
     }
 
