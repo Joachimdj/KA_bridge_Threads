@@ -52,7 +52,7 @@ public class Bridge implements Runnable {
                 try {
                     Thread.sleep(passTime);
                     System.out.println("Total number of boats passed from right: " + numberOfBoatsFromRight);
-                    System.out.println("All boats from right has pass. Time spent: " + passTime);
+                    System.out.println("Time spent: " + passTime);
 
                 } catch (InterruptedException ex) {
                     Logger.getLogger(Bridge.class.getName()).log(Level.SEVERE, null, ex);
@@ -77,8 +77,8 @@ public class Bridge implements Runnable {
 
                 try {
                     Thread.sleep(passTime);
-                    System.out.println("Total number of boats passed from right: " + numberOfBoatsFromLeft);
-                    System.out.println("All boats from left has pass. Time spent: " + passTime);
+                    System.out.println("Total number of boats passed from left: " + numberOfBoatsFromLeft);
+                    System.out.println("Time spent: " + passTime);
 
                 } catch (InterruptedException ex) {
                     Logger.getLogger(Bridge.class.getName()).log(Level.SEVERE, null, ex);

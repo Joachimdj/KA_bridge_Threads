@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 
 public class Creator implements Runnable {
 
-    private final int boatArrivalSeed = 100;
+    private final int boatArrivalSeed = 5000;
     private int boatNumber = 1;
     private Random boatArrivalTime;
     private Random boatDirection;
