@@ -7,11 +7,28 @@ package ka_bridge_threads;
 
 import java.util.ArrayList;
 
-/**
- *
- * @author joachimdittman
- */
-public class Bridge {
-    public int status = 0; //Is the bridge down (0) or op (1).
+
+
+public class Bridge implements Runnable{
+    
+    public static boolean bridgeIsOpen = true;
+
+    public Bridge() {
+    }
+
+    public static boolean isBridgeIsOpen() {
+        return bridgeIsOpen;
+    }
+
+    public static void setBridgeIsOpen(boolean bridgeIsOpen) {
+        Bridge.bridgeIsOpen = bridgeIsOpen;
+    }
+
+    @Override
+    public void run() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
     
 }
