@@ -9,7 +9,7 @@ package ka_bridge_threads;
  *
  * @author joachimdittman
  */
-public class KA_bridge_Threads {
+public class Main {
 
     /**
      * @param args the command line arguments
