@@ -16,8 +16,10 @@ public class Main {
      */
     public static void main(String[] args) {
 
-        Thread creator = new Thread(new Creator());
-        Thread bridge = new Thread(new Bridge());
+        Shared s = new Shared();
+        
+        Thread creator = new Thread(new Creator(s));
+        Thread bridge = new Thread(new Bridge(s));
         creator.start();
         bridge.start();
 

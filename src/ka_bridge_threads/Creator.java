@@ -11,13 +11,15 @@ import java.util.logging.Logger;
 
 public class Creator implements Runnable {
 
-    private int boatArrivalSeed = 5000;
+    private Shared s;
+    private final int boatArrivalSeed = 5000;
     private int boatNumber = 1;
     private Random boatArrivalTime;
     private Random boatDirection;
     private Boatqueue boatQueue;
 
-    public Creator() {
+    public Creator(Shared s) {
+        this.s = s;
         boatArrivalTime = new Random();
         boatDirection = new Random();
         boatQueue = Boatqueue.getInstance();
@@ -26,8 +28,8 @@ public class Creator implements Runnable {
     @Override
     public void run() {
 
-        while (boatQueue.isBoatsArriving()) {
-            
+        while (!s.isBoatWaiting()) {
+            System.out.println("Creator "+s.isBoatWaiting());
             int spawnTime = boatArrivalTime.nextInt(boatArrivalSeed);
 
             try {
@@ -35,13 +37,15 @@ public class Creator implements Runnable {
             } catch (InterruptedException ex) {
                 Logger.getLogger(Creator.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
             int heading = boatDirection.nextInt(2);
             String direction = (heading == 0) ? "left" : "right";
 
             Boat boat = new Boat("Boat " + boatNumber, direction);
             System.out.println(boat.getName() + " is arriving on the " + boat.getDirection());
             boatQueue.addBoat(boat);
+ System.out.println("Creator end "+s.isBoatWaiting());
+            s.setBoatWaiting();
 
             boatNumber++;
         }

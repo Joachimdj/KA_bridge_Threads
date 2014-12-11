@@ -6,31 +6,31 @@
 package ka_bridge_threads;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Bridge implements Runnable {
 
+    private Shared s;
     private ArrayList<Boat> boatsInQueue;
     private final long openTime = 2000;
     private final long passTime = 100;
     private static boolean bridgeIsOpen = false;
     private static Boatqueue boatQueue;
 
-    public Bridge() {
+    public Bridge(Shared s) {
+        this.s = s;
         boatQueue = Boatqueue.getInstance();
     }
 
     @Override
     public void run() {
-
-        while (boatQueue.isBoatsArriving()) {
-
+ System.out.println("Bridge "+s.isBoatWaiting());
+        while (s.isBoatWaiting()) {
+                 
             boatsInQueue = boatQueue.getBoatsWaiting();
 
             if (boatsInQueue.isEmpty()) {
-                System.out.println("test");
                 setBridgeIsOpen(false);
             } else {
                 setBridgeIsOpen(true);
@@ -54,6 +54,8 @@ public class Bridge implements Runnable {
                         boatIsPassing();
                     }
                 }
+                 System.out.println("Bridge end"+s.isBoatWaiting());
+                s.setBoatWaiting();
                 BridgeIsWaitingToOpen();
             }
 
